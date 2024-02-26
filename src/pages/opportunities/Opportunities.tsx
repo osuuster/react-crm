@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Box, Button, Card, List, Stack, Tab, TablePagination, Tabs, Toolbar, Typography, Link, Select, MenuItem, TableContainer, Table, TableSortLabel, TableCell, TableRow, TableHead, Paper, TableBody, IconButton, Container } from '@mui/material'
+import { Avatar, Box, Button, Stack, Typography, Select, MenuItem, TableContainer, Table, TableCell, TableRow, TableHead, Paper, TableBody, IconButton, Container } from '@mui/material'
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { Spinner } from '../../components/Spinner';
 import { FiPlus } from "@react-icons/all-files/fi/FiPlus";
@@ -8,7 +8,6 @@ import { CustomTab, CustomToolbar, FabLeft, FabRight, StyledTableCell, StyledTab
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../../components/FetchData';
 import { getComparator, stableSort } from '../../components/Sorting';
-import { Label } from '../../components/Label';
 import { FaTrashAlt } from 'react-icons/fa';
 import { OpportunityUrl } from '../../services/ApiUrls';
 import { DeleteModal } from '../../components/DeleteModal';
@@ -444,9 +443,6 @@ export default function Opportunities(props: any) {
                             </TableCell>
                             <TableCell className='tableCell'>
                               {item?.created_on_arrow ? item?.created_on_arrow : '---'}
-                            </TableCell>
-                            <TableCell className='tableCell'>
-                              {item?.tags?.length ? item?.tags.map((tag: any, i: any) => <Stack sx={{ mr: 0.5 }}> <Label tags={tag} /></Stack>) : '---'}
                             </TableCell>
                             <TableCell className='tableCell'>
                               {item?.lead_source ? item?.lead_source : '---'}

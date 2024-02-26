@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
-    Card,
-    Link,
     Avatar,
     Box,
     Snackbar,
@@ -13,11 +11,9 @@ import {
 } from '@mui/material'
 import { fetchData } from '../../components/FetchData'
 import { OpportunityUrl } from '../../services/ApiUrls'
-import { Tags } from '../../components/Tags'
 import { CustomAppBar } from '../../components/CustomAppBar'
 import { FaPlus, FaStar } from 'react-icons/fa'
 import FormateTime from '../../components/FormateTime'
-import { Label } from '../../components/Label'
 
 export const formatDate = (dateString: any) => {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
@@ -132,7 +128,7 @@ export const OpportunityDetails = (props: any) => {
             'Content-Type': 'application/json',
             Authorization: localStorage.getItem('Token'),
             org: localStorage.getItem('org')
-          }
+        }
         fetchData(`${OpportunityUrl}/${id}/`, 'GET', null as any, Header)
             .then((res) => {
                 console.log(res, 'edd');
@@ -267,12 +263,6 @@ export const OpportunityDetails = (props: any) => {
                                         }
                                     </Stack>
                                 </div>
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    {opportunityDetails?.tags?.length ? opportunityDetails?.tags.map((tagData: any) => (
-                                        <Label
-                                            tags={tagData}
-                                        />)) : ''}
-                                </Stack>
                             </div>
                             <div style={{ padding: '20px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <div style={{ width: '32%' }}>

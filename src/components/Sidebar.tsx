@@ -7,17 +7,9 @@ import { fetchData } from './FetchData';
 import { ProfileUrl } from '../services/ApiUrls';
 import { Header1 } from './FetchData';
 import OrganizationModal from '../pages/organization/OrganizationModal';
-import Company from '../pages/company/Company';
-import AddCompany from '../pages/company/AddCompany';
-import CompanyDetails from '../pages/company/CompanyDetails';
-import EditCompany from '../pages/company/EditCompany';
 import Leads from '../pages/leads/Leads';
-import AddContacts from '../pages/contacts/AddContacts';
 import { EditLead } from '../pages/leads/EditLead';
 import LeadDetails from '../pages/leads/LeadDetails';
-import Contacts from '../pages/contacts/Contacts';
-import EditContact from '../pages/contacts/EditContacts';
-import ContactDetails from '../pages/contacts/ContactDetails';
 import Users from '../pages/users/Users';
 import Opportunities from '../pages/opportunities/Opportunities';
 import Cases from '../pages/cases/Cases';
@@ -37,21 +29,14 @@ import { EditCase } from '../pages/cases/EditCase';
 import { CaseDetails } from '../pages/cases/CaseDetails';
 import logo from '../assets/images/auth/img_logo.png';
 import { StyledListItemButton, StyledListItemText } from '../styles/CssStyled';
-// import MyContext, { MyContextData } from '../context/Context';
 import MyContext from '../context/Context';
 
-// declare global {
-//     interface Window {
-//         drawer: any;
-//     }
-// }
 
 export default function Sidebar(props: any) {
     const navigate = useNavigate()
     const location = useLocation()
-    const [screen, setScreen] = useState('contacts')
+    const [screen, setScreen] = useState('leads')
     const [drawerWidth, setDrawerWidth] = useState(200)
-    const [headerWidth, setHeaderWidth] = useState(drawerWidth)
     const [userDetail, setUserDetail] = useState('')
     const [organizationModal, setOrganizationModal] = useState(false)
     const organizationModalClose = () => { setOrganizationModal(false) }
@@ -60,32 +45,14 @@ export default function Sidebar(props: any) {
         toggleScreen()
     }, [navigate])
 
-    // useEffect(() => {
-    // navigate('/leads')
-    // if (localStorage.getItem('Token') && localStorage.getItem('org')) {
-    //     // setScreen('contacts')
-    //     navigate('/contacts')
-    // }
-    // if (!localStorage.getItem('Token')) {
-    //     navigate('/login')
-    // }
-    // if (!localStorage.getItem('org')) {
-    //     navigate('/organization')
-    // }
-    // toggleScreen()
-    // }, [])
+
     const toggleScreen = () => {
-        // console.log(location.pathname.split('/'), 'll')
         if (location.pathname.split('/')[1] === '' || location.pathname.split('/')[1] === undefined || location.pathname.split('/')[2] === 'leads') {
             setScreen('leads')
-        } else if (location.pathname.split('/')[2] === 'contacts') {
-            setScreen('contacts')
         } else if (location.pathname.split('/')[2] === 'opportunities') {
             setScreen('opportunities')
         } else if (location.pathname.split('/')[2] === 'accounts') {
             setScreen('accounts')
-        } else if (location.pathname.split('/')[2] === 'companies') {
-            setScreen('companies')
         } else if (location.pathname.split('/')[2] === 'users') {
             setScreen('users')
         } else if (location.pathname.split('/')[2] === 'cases') {
@@ -93,14 +60,10 @@ export default function Sidebar(props: any) {
         }
     }
 
-    // useEffect(() => {
-    //     userProfile()
-    // }, [])
 
     const userProfile = () => {
         fetchData(`${ProfileUrl}/`, 'GET', null as any, Header1)
             .then((res: any) => {
-                // console.log(res, 'user')
                 if (res?.user_obj) {
                     setUserDetail(res?.user_obj)
                 }
@@ -110,21 +73,15 @@ export default function Sidebar(props: any) {
             })
     }
 
-    const navList = ['leads', 'contacts', 'opportunities', 'accounts', 'companies', 'users', 'cases']
+    const navList = ['leads', 'opportunities', 'accounts', 'users', 'cases']
     const navIcons = (text: any, screen: any): React.ReactNode => {
         switch (text) {
             case 'leads':
                 return screen === 'leads' ? <FaUsers fill='#3e79f7' /> : <FaUsers />
-            case 'contacts':
-                return screen === 'contacts' ? <FaAddressBook fill='#3e79f7' /> : <FaAddressBook />
             case 'opportunities':
                 return screen === 'opportunities' ? <FaHandshake fill='#3e79f7' /> : <FaHandshake />
             case 'accounts':
                 return screen === 'accounts' ? <FaBuilding fill='#3e79f7' /> : <FaBuilding />
-            case 'companies':
-                return screen === 'companies' ? <FaIndustry fill='#3e79f7' /> : <FaIndustry />
-            // case 'analytics':
-            //     return screen === 'analytics' ? <FaChartLine fill='#3e79f7' /> : <FaChartLine />
             case 'users':
                 return screen === 'users' ? <FaUserFriends fill='#3e79f7' /> : <FaUserFriends />
             case 'cases':
@@ -182,10 +139,8 @@ export default function Sidebar(props: any) {
                         flexDirection: 'row',
                         alignItems: 'center'
                     }}>
-                        {/* <IconButton onClick={userProfile} sx={{ mr: 2 }}><FaCog /></IconButton> */}
                         <IconButton onClick={handleClick} sx={{ mr: 3 }}>
                             <Avatar
-                                // src='hj'
                                 sx={{ height: '27px', width: '27px' }}
                             />
                         </IconButton>
@@ -220,11 +175,6 @@ export default function Sidebar(props: any) {
                                     </StyledListItemButton>
                                 </ListItem>
                             </List>
-                            {/* <Tooltip title='logout' sx={{ ml: '15px' }}>
-                                <IconButton
-                                    >
-                                </IconButton>
-                            </Tooltip> */}
                         </Popover>
                     </Box>
                 </AppBar>
@@ -261,32 +211,13 @@ export default function Sidebar(props: any) {
 
                 </Drawer>
                 <MyContext.Provider value={context}>
-
-                    {/* <Box sx={{ width: drawerWidth === 60 ? '1380px' : '1240px', ml: drawerWidth === 60 ? '60px' : '200px', overflowX: 'hidden' }}> */}
                     <Box sx={{ width: 'auto', ml: drawerWidth === 60 ? '60px' : '200px', overflowX: 'hidden' }}>
-                        {/* {location.pathname.split('/')[1] === '' && <Contacts />}
-                {location.pathname.split('/')[1] === 'contacts' && <Contacts />}
-                {location.pathname.split('/')[2] === 'add-leads' && <AddLeads />} */}
-                        {/* {location.pathname === 'leads' && <LeadList />}
-                        {screen === 'contacts' && <Contacts />} */}
-                        {/* <Routes>
-                            <Route index element={<Navigate to="/contacts" replace />} />
-                            </Routes> */}
                         <Routes>
                             <Route index element={<Leads />} />
-                            {/* <Route path='/' element={<Contacts />} /> */}
                             <Route path='/app/leads' element={<Leads />} />
                             <Route path='/app/leads/add-leads' element={<AddLeads />} />
                             <Route path='/app/leads/edit-lead' element={<EditLead />} />
                             <Route path='/app/leads/lead-details' element={<LeadDetails />} />
-                            <Route path='/app/companies' element={<Company />} />
-                            <Route path='/app/companies/add-company' element={<AddCompany />} />
-                            <Route path='/app/companies/edit-company' element={<EditCompany />} />
-                            <Route path='/app/companies/company-details' element={<CompanyDetails />} />
-                            <Route path='/app/contacts' element={<Contacts />} />
-                            <Route path='/app/contacts/add-contacts' element={<AddContacts />} />
-                            <Route path='/app/contacts/contact-details' element={<ContactDetails />} />
-                            <Route path='/app/contacts/edit-contact' element={<EditContact />} />
                             <Route path='/app/accounts' element={<Accounts />} />
                             <Route path='/app/accounts/add-account' element={<AddAccount />} />
                             <Route path='/app/accounts/account-details' element={<AccountDetails />} />

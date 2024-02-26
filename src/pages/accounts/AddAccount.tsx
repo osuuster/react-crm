@@ -42,12 +42,10 @@ type FormErrors = {
     contact_name?: string[],
     teams?: string[],
     assigned_to?: string[],
-    tags?: string[],
     account_attachment?: string[],
     website?: string[],
     status?: string[],
     lead?: string[],
-    contacts?: string[],
     file?: string[]
 
 
@@ -70,20 +68,17 @@ interface FormData {
     website: string,
     status: string,
     lead: string,
-    contacts: [],
     file?: string | null
 }
 
 export function AddAccount() {
     const navigate = useNavigate()
     const { state } = useLocation()
-    const autocompleteRef = useRef<any>(null);
     const [error, setError] = useState(false)
     const [selectedContacts, setSelectedContacts] = useState<any[]>([]);
     const [selectedAssignTo, setSelectedAssignTo] = useState<any[]>([]);
     const [selectedTags, setSelectedTags] = useState<any[]>([]);
     const [selectedTeams, setSelectedTeams] = useState<any[]>([]);
-    const [selectedCountry, setSelectedCountry] = useState<any[]>([]);
     const [leadSelectOpen, setLeadSelectOpen] = useState(false)
     const [statusSelectOpen, setStatusSelectOpen] = useState(false)
     const [countrySelectOpen, setCountrySelectOpen] = useState(false)
@@ -108,24 +103,14 @@ export function AddAccount() {
         website: '',
         status: 'open',
         lead: '',
-        contacts: [],
         file: null
 
     })
 
     const handleChange2 = (title: any, val: any) => {
-        if (title === 'contacts') {
-            setFormData({ ...formData, contacts: val.length > 0 ? val.map((item: any) => item.id) : [] });
-            setSelectedContacts(val);
-        } else if (title === 'assigned_to') {
+        if (title === 'assigned_to') {
             setFormData({ ...formData, assigned_to: val.length > 0 ? val.map((item: any) => item.id) : [] });
             setSelectedAssignTo(val);
-        } else if (title === 'tags') {
-            setFormData({ ...formData, assigned_to: val.length > 0 ? val.map((item: any) => item.id) : [] });
-            setSelectedTags(val);
-        } else if (title === 'teams') {
-            setFormData({ ...formData, teams: val.length > 0 ? val.map((item: any) => item.id) : [] });
-            setSelectedTags(val);
         }
         else {
             setFormData({ ...formData, [title]: val })
@@ -156,7 +141,7 @@ export function AddAccount() {
             'Content-Type': 'application/json',
             Authorization: localStorage.getItem('Token'),
             org: localStorage.getItem('org')
-          }
+        }
         // console.log('Form data:', formData.lead_attachment,'sfs', formData.file);
         const data = {
             name: formData.name,
@@ -176,7 +161,6 @@ export function AddAccount() {
             website: formData.website,
             status: formData.status,
             lead: formData.lead,
-            contacts: formData.contacts
         }
         fetchData(`${AccountsUrl}/`, 'POST', JSON.stringify(data), Header)
             .then((res: any) => {
@@ -212,7 +196,6 @@ export function AddAccount() {
             website: '',
             status: 'open',
             lead: '',
-            contacts: [],
             file: null
         });
         setErrors({})
@@ -229,7 +212,7 @@ export function AddAccount() {
     const crntPage = 'Add Account'
     const backBtn = 'Back To Accounts'
 
-    const handleFileChange = (event:any) => {
+    const handleFileChange = (event: any) => {
         const file = event.target.files?.[0] || null;
         if (file) {
             setFormData((prevData) => ({
@@ -237,7 +220,7 @@ export function AddAccount() {
                 account_attachment: file.name,
                 file: prevData.file,
             }));
-    
+
             const reader = new FileReader();
             reader.onload = () => {
                 setFormData((prevData) => ({
@@ -531,60 +514,6 @@ export function AddAccount() {
                                                     helperText={errors?.account_attachment?.[0] ? errors?.account_attachment[0] : ''}
                                                     error={!!errors?.account_attachment?.[0]}
                                                 />
-                                            </div>
-                                        </div>
-                                        <div className='fieldContainer2'>
-                                            <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>Tags</div>
-                                                <FormControl error={!!errors?.tags?.[0]} sx={{ width: '70%' }}>
-                                                    <Autocomplete
-                                                        // ref={autocompleteRef}
-                                                        value={selectedTags}
-                                                        multiple
-                                                        limitTags={5}
-                                                        options={state.tags || []}
-                                                        // options={state.contacts ? state.contacts.map((option: any) => option) : ['']}
-                                                        getOptionLabel={(option: any) => option}
-                                                        onChange={(e: any, value: any) => handleChange2('tags', value)}
-                                                        size='small'
-                                                        filterSelectedOptions
-                                                        renderTags={(value, getTagProps) =>
-                                                            value.map((option, index) => (
-                                                                <Chip
-                                                                    deleteIcon={<FaTimes style={{ width: '9px' }} />}
-                                                                    sx={{
-                                                                        backgroundColor: 'rgba(0, 0, 0, 0.08)',
-                                                                        height: '18px'
-
-                                                                    }}
-                                                                    variant='outlined'
-                                                                    label={option}
-                                                                    {...getTagProps({ index })}
-                                                                />
-                                                            ))
-                                                        }
-                                                        popupIcon={<CustomPopupIcon><FaPlus className='input-plus-icon' /></CustomPopupIcon>}
-                                                        renderInput={(params) => (
-                                                            <TextField {...params}
-                                                                placeholder='Add Tags'
-                                                                InputProps={{
-                                                                    ...params.InputProps,
-                                                                    sx: {
-                                                                        '& .MuiAutocomplete-popupIndicator': { '&:hover': { backgroundColor: 'white' } },
-                                                                        '& .MuiAutocomplete-endAdornment': {
-                                                                            mt: '-8px',
-                                                                            mr: '-8px',
-                                                                        }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        )}
-                                                    />
-                                                    <FormHelperText>{errors?.tags?.[0] || ''}</FormHelperText>
-                                                </FormControl>
-                                            </div>
-                                            <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'></div>
                                             </div>
                                         </div>
                                     </Box>

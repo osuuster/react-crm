@@ -206,7 +206,7 @@ export function EditAccount() {
             'Content-Type': 'application/json',
             Authorization: localStorage.getItem('Token'),
             org: localStorage.getItem('org')
-          }
+        }
         // console.log('Form data:', formData.lead_attachment,'sfs', formData.file);
         const data = {
             name: formData.name,
@@ -377,32 +377,6 @@ export function EditAccount() {
                                                     <FormHelperText>{errors?.status?.[0] ? errors?.status[0] : ''}</FormHelperText>
                                                 </FormControl>
                                             </div>
-                                            <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>Contact Name</div>
-                                                <FormControl sx={{ width: '70%' }}>
-                                                    <RequiredSelect
-                                                        name='contact_name'
-                                                        value={formData.contact_name}
-                                                        open={contactSelectOpen}
-                                                        onClick={() => setContactSelectOpen(!contactSelectOpen)}
-                                                        IconComponent={() => (
-                                                            <div onClick={() => setContactSelectOpen(!contactSelectOpen)} className="select-icon-background">
-                                                                {contactSelectOpen ? <FiChevronUp className='select-icon' /> : <FiChevronDown className='select-icon' />}
-                                                            </div>
-                                                        )}
-                                                        className='select'
-                                                        onChange={handleChange}
-                                                        error={!!errors?.contact_name?.[0]}
-                                                    >
-                                                        {state?.contacts?.length ? state?.contacts.map((option: any) => (
-                                                            <MenuItem key={option?.id} value={option?.first_name}>
-                                                                {option?.first_name}
-                                                            </MenuItem>
-                                                        )) : ''}
-                                                    </RequiredSelect>
-                                                    <FormHelperText className='helperText'>{errors?.contact_name?.[0] ? errors?.contact_name[0] : ''}</FormHelperText>
-                                                </FormControl>
-                                            </div>
                                         </div>
                                         <div className='fieldContainer2'>
                                             <div className='fieldSubContainer'>
@@ -429,51 +403,6 @@ export function EditAccount() {
                                                         )) : ''}
                                                     </Select>
                                                     <FormHelperText className='helperText'>{errors?.lead?.[0] || ''}</FormHelperText>
-                                                </FormControl>
-                                            </div>
-                                            <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>Teams</div>
-                                                <FormControl error={!!errors?.teams?.[0]} sx={{ width: '70%' }}>
-                                                    <Autocomplete
-                                                        // ref={autocompleteRef}
-                                                        value={selectedTeams}
-                                                        multiple
-                                                        limitTags={5}
-                                                        options={state?.teams || []}
-                                                        // options={state.contacts ? state.contacts.map((option: any) => option) : ['']}
-                                                        getOptionLabel={(option: any) => option || []}
-                                                        onChange={(e: any, value: any) => handleChange2('teams', value)}
-                                                        size='small'
-                                                        filterSelectedOptions
-                                                        renderTags={(value, getTagProps) =>
-                                                            value.map((option: any, index: any) => (
-                                                                <Chip
-                                                                    deleteIcon={<FaTimes style={{ width: '9px' }} />}
-                                                                    sx={{ backgroundColor: 'rgba(0, 0, 0, 0.08)', height: '18px' }}
-                                                                    variant='outlined'
-                                                                    label={option}
-                                                                    {...getTagProps({ index })}
-                                                                />
-                                                            ))
-                                                        }
-                                                        popupIcon={<CustomPopupIcon ><FaPlus className='input-plus-icon' /></CustomPopupIcon>}
-                                                        renderInput={(params) => (
-                                                            <TextField {...params}
-                                                                placeholder='Add Teams'
-                                                                InputProps={{
-                                                                    ...params.InputProps,
-                                                                    sx: {
-                                                                        '& .MuiAutocomplete-popupIndicator': { '&:hover': { backgroundColor: 'white' } },
-                                                                        '& .MuiAutocomplete-endAdornment': {
-                                                                            mt: '-8px',
-                                                                            mr: '-8px',
-                                                                        }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        )}
-                                                    />
-                                                    <FormHelperText>{errors?.teams?.[0] || ''}</FormHelperText>
                                                 </FormControl>
                                             </div>
                                         </div>
@@ -522,90 +451,6 @@ export function EditAccount() {
                                                     <FormHelperText>{errors?.assigned_to?.[0] || ''}</FormHelperText>
                                                 </FormControl>
                                             </div>
-                                            <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>account_attachment</div>
-                                                <TextField
-                                                    name='account_attachment'
-                                                    value={formData.account_attachment || ''}
-                                                    InputProps={{
-                                                        endAdornment: (
-                                                            <InputAdornment position='end'>
-                                                                <IconButton disableFocusRipple
-                                                                    disableTouchRipple
-                                                                    sx={{ width: '40px', height: '40px', backgroundColor: 'whitesmoke', borderRadius: '0px', mr: '-13px', cursor: 'pointer' }}
-                                                                >
-                                                                    <label htmlFor='icon-button-file'>
-                                                                        <input
-                                                                            hidden
-                                                                            accept='image/*'
-                                                                            id='icon-button-file'
-                                                                            type='file'
-                                                                            name='account_attachment'
-                                                                            onChange={(e: any) => {
-                                                                                handleFileChange(e)
-                                                                            }}
-                                                                        />
-                                                                        <FaUpload color='primary' style={{ fontSize: '15px', cursor: 'pointer' }} />
-                                                                    </label>
-                                                                </IconButton>
-                                                            </InputAdornment>
-                                                        )
-                                                    }}
-                                                    sx={{ width: '70%' }}
-                                                    size='small'
-                                                    helperText={errors?.account_attachment?.[0] ? errors?.account_attachment[0] : ''}
-                                                    error={!!errors?.account_attachment?.[0]}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className='fieldContainer2'>
-                                            <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>Tags</div>
-                                                <FormControl error={!!errors?.tags?.[0]} sx={{ width: '70%' }}>
-                                                    <Autocomplete
-                                                        // ref={autocompleteRef}
-                                                        value={selectedTags}
-                                                        multiple
-                                                        limitTags={5}
-                                                        options={state?.tags || []}
-                                                        getOptionLabel={(option: any) => option}
-                                                        onChange={(e: any, value: any) => handleChange2('tags', value)}
-                                                        size='small'
-                                                        filterSelectedOptions
-                                                        renderTags={(value, getTagProps) =>
-                                                            value.map((option, index) => (
-                                                                <Chip
-                                                                    deleteIcon={<FaTimes style={{ width: '9px' }} />}
-                                                                    sx={{ backgroundColor: 'rgba(0, 0, 0, 0.08)', height: '18px' }}
-                                                                    variant='outlined'
-                                                                    label={option}
-                                                                    {...getTagProps({ index })}
-                                                                />
-                                                            ))
-                                                        }
-                                                        popupIcon={<CustomPopupIcon><FaPlus className='input-plus-icon' /></CustomPopupIcon>}
-                                                        renderInput={(params) => (
-                                                            <TextField {...params}
-                                                                placeholder='Add Tags'
-                                                                InputProps={{
-                                                                    ...params.InputProps,
-                                                                    sx: {
-                                                                        '& .MuiAutocomplete-popupIndicator': { '&:hover': { backgroundColor: 'white' } },
-                                                                        '& .MuiAutocomplete-endAdornment': {
-                                                                            mt: '-8px',
-                                                                            mr: '-8px',
-                                                                        }
-                                                                    }
-                                                                }}
-                                                            />
-                                                        )}
-                                                    />
-                                                    <FormHelperText>{errors?.tags?.[0] || ''}</FormHelperText>
-                                                </FormControl>
-                                            </div>
-                                            <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'></div>
-                                            </div>
                                         </div>
                                     </Box>
                                 </AccordionDetails>
@@ -614,7 +459,7 @@ export function EditAccount() {
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: '20px' }}>
                             <Accordion style={{ width: '98%' }} defaultExpanded>
                                 <AccordionSummary expandIcon={<FiChevronDown style={{ fontSize: '25px' }} />}>
-                                    <Typography className='accordion-header'>Address</Typography>
+                                    <Typography className='accordion-header'>Billing Address</Typography>
                                 </AccordionSummary>
                                 <Divider className='divider' />
                                 <AccordionDetails>
@@ -624,7 +469,7 @@ export function EditAccount() {
                                     >
                                         <div className='fieldContainer'>
                                             <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>Billing Address Line</div>
+                                                <div className='fieldTitle'>Address</div>
                                                 <TextField
                                                     name='billing_address_line'
                                                     value={formData.billing_address_line}
@@ -633,18 +478,6 @@ export function EditAccount() {
                                                     size='small'
                                                     helperText={errors?.billing_address_line?.[0] ? errors?.billing_address_line[0] : ''}
                                                     error={!!errors?.billing_address_line?.[0]}
-                                                />
-                                            </div>
-                                            <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>Billing Street</div>
-                                                <TextField
-                                                    name='billing_street'
-                                                    value={formData.billing_street}
-                                                    onChange={handleChange}
-                                                    style={{ width: '70%' }}
-                                                    size='small'
-                                                    helperText={errors?.billing_street?.[0] ? errors?.billing_street[0] : ''}
-                                                    error={!!errors?.billing_street?.[0]}
                                                 />
                                             </div>
                                         </div>
@@ -661,22 +494,10 @@ export function EditAccount() {
                                                     error={!!errors?.billing_city?.[0]}
                                                 />
                                             </div>
-                                            <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>Billing State</div>
-                                                <TextField
-                                                    name='billing_state'
-                                                    value={formData.billing_state}
-                                                    onChange={handleChange}
-                                                    style={{ width: '70%' }}
-                                                    size='small'
-                                                    helperText={errors?.billing_state?.[0] ? errors?.billing_state[0] : ''}
-                                                    error={!!errors?.billing_state?.[0]}
-                                                />
-                                            </div>
                                         </div>
                                         <div className='fieldContainer2'>
                                             <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>Billing Postcode</div>
+                                                <div className='fieldTitle'>Postal code</div>
                                                 <TextField
                                                     name='billing_postcode'
                                                     value={formData.billing_postcode}
@@ -688,7 +509,7 @@ export function EditAccount() {
                                                 />
                                             </div>
                                             <div className='fieldSubContainer'>
-                                                <div className='fieldTitle'>Billing Country</div>
+                                                <div className='fieldTitle'>Country</div>
                                                 <FormControl sx={{ width: '70%' }}>
                                                     <Select
                                                         name='billing_country'

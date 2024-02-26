@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
-    Card,
-    Link,
     Avatar,
     Box,
     Snackbar,
     Alert,
     Stack,
     Button,
-    Chip
 } from '@mui/material'
 import { fetchData } from '../../components/FetchData'
 import { AccountsUrl, CasesUrl } from '../../services/ApiUrls'
-import { Tags } from '../../components/Tags'
 import { CustomAppBar } from '../../components/CustomAppBar'
 import { FaPlus, FaStar } from 'react-icons/fa'
 import FormateTime from '../../components/FormateTime'
-import { Label } from '../../components/Label'
 
 type response = {
     created_by: {
@@ -114,7 +109,7 @@ export const CaseDetails = (props: any) => {
             'Content-Type': 'application/json',
             Authorization: localStorage.getItem('Token'),
             org: localStorage.getItem('org')
-          }
+        }
         fetchData(`${CasesUrl}/${id}/`, 'GET', null as any, Header)
             .then((res) => {
                 // console.log(res, 'case');
@@ -224,12 +219,6 @@ export const CaseDetails = (props: any) => {
                                         } */}
                                     </Stack>
                                 </div>
-                                <Stack sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    {caseDetails?.tags?.length ? caseDetails?.tags.map((tagData: any) => (
-                                        <Label
-                                            tags={tagData}
-                                        />)) : ''}
-                                </Stack>
                             </div>
                             <div style={{ padding: '20px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <div style={{ width: '32%' }}>
@@ -263,15 +252,6 @@ export const CaseDetails = (props: any) => {
                                     <div className='title3'>
                                         {caseDetails?.assigned_to?.length ? caseDetails?.assigned_to.map((val: any) => val) : '----'}
                                         {/* {caseDetails?.assigned_to || '---'} */}
-                                    </div>
-                                </div>
-                                <div style={{ width: '32%' }}>
-                                    <div className='title2'>Team</div>
-                                    <div className='title3'>
-                                        {caseDetails?.teams?.length ? caseDetails?.teams.map((team: any) =>
-                                            <Chip label={team} sx={{ height: '20px', borderRadius: '4px' }} />
-                                        ) : '----'}
-
                                     </div>
                                 </div>
                             </div>

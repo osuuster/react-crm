@@ -8,7 +8,6 @@ import { CustomTab, CustomToolbar, FabLeft, FabRight, StyledTableCell, StyledTab
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../../components/FetchData';
 import { getComparator, stableSort } from '../../components/Sorting';
-import { Label } from '../../components/Label';
 import { FaTrashAlt } from 'react-icons/fa';
 import { CasesUrl } from '../../services/ApiUrls';
 import { DeleteModal } from '../../components/DeleteModal';
@@ -25,12 +24,6 @@ interface HeadCell {
   numeric: boolean;
 }
 const headCells: readonly HeadCell[] = [
-  // {
-  //   id: '',
-  //   numeric: false,
-  //   disablePadding: false,
-  //   label: ''
-  // },
   {
     id: 'name',
     numeric: false,
@@ -176,7 +169,7 @@ export default function Cases(props: any) {
 
   const caseDetail = (caseId: any) => {
     // console.log(contacts,priority,typeOfCases,account,'list');
-    
+
     navigate(`/app/cases/case-details`, {
       state: {
         caseId, detail: true,
